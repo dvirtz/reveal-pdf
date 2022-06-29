@@ -1,0 +1,22 @@
+ {
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "CommonJS",
+        "lib": [
+            "es2016",
+            "dom"
+        ],
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "typeRoots": [
+            "./types",
+            "./node_modules/@types"
+        ],
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true
+    }
+}

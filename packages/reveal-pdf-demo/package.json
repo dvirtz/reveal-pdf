@@ -1,0 +1,15 @@
+{
+  "name": "reveal-pdf-demo",
+  "version": "1.0.2",
+  "private": true,
+  "scripts": {
+    "demo": "reveal-md reveal-pdf.md -w",
+    "build": "reveal-md reveal-pdf.md --static",
+    "clean": "npx rimraf _static"
+  },
+  "devDependencies": {
+    "reveal-md": "^5.3.3",
+    "reveal-pdf": "^1.0.2",
+    "web-streams-polyfill": "^3.2.1"
+  }
+}

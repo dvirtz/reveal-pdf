@@ -1,0 +1,51 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node_version: [14.x, 16.x, 18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # for commit linting and semantic-release
+          persist-credentials: false
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "${{ matrix.node_version }}"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bootstrap
+        run: npx lerna bootstrap --hoist
+
+      - name: Build
+        run: npx lerna run build
+
+      - name: Test
+        run: npx lerna run test
+
