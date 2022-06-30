@@ -31,7 +31,9 @@ describe('reveal-pdf', function () {
       })),
     } as unknown as PDFDocumentProxy;
     const getDocumentMock = jest.mocked(getDocument).mockReturnValue({ promise: Promise.resolve(doc) } as PDFDocumentLoadingTask);
+
     await plugin.createPdf(canvas);
+
     expect(getDocumentMock).toBeCalledWith(pdf);
     expect(doc.getPage).toBeCalledWith(1);
     expect(getViewport).toBeCalledWith({ scale });
@@ -41,4 +43,50 @@ describe('reveal-pdf', function () {
       viewport: getViewport()
     });
   });
+
+  test.each([
+    [pdf, 1],
+    [`${pdf}2`, 3]
+  ])('add link %#', async function (src, page) {
+    const parent = document.createElement('div');    
+    const canvas = createElementFromHTML<HTMLCanvasElement>(`<canvas data-pdf-src=${src}></canvas>`);
+    if (page != 1) {
+      canvas.setAttribute('data-pdf-page', page.toString());
+    }
+    parent.append(canvas);
+    const ctx = canvas.getContext('2d');
+    const getViewport = jest.fn(() => ({
+      width: 42,
+      height: 24
+    }));
+    const render = jest.fn(async () => { });
+    const doc = {
+      getPage: jest.fn(async () => ({
+        getViewport,
+        render
+      })),
+    } as unknown as PDFDocumentProxy;
+    const getDocumentMock = jest.mocked(getDocument).mockReturnValue({ promise: Promise.resolve(doc) } as PDFDocumentLoadingTask);
+
+    await plugin.createPdf(canvas, {addLink: true});
+    
+    expect(getDocumentMock).toBeCalledWith(src);
+    expect(doc.getPage).toBeCalledWith(page);
+    expect(getViewport).toBeCalledWith({ scale: 1 });
+    expect(render).toBeCalledWith({
+      canvasContext: canvas.getContext('2d'),
+      undefined,
+      viewport: getViewport()
+    });
+
+    const children = Array.from(parent.children);
+    expect(children).toHaveLength(1);
+    expect(children[0]).toBeInstanceOf(HTMLAnchorElement);
+    
+    const a = children[0] as HTMLAnchorElement;
+    expect(a.pathname).toBe(`/${src}`);
+    expect(a.hash).toBe(page == 1 ? '' : `#page=${page}`);
+    expect(Array.from(a.children)).toStrictEqual([canvas]);
+  });
+
 });
