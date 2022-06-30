@@ -1,19 +1,21 @@
 import { getDocument } from "pdfjs-dist";
 
 const defaultOptions: RevealPdfOptions = {
+  addLink: false
 };
 
 const PDF_SRC_ATTR = 'data-pdf-src';
 const PDF_PAGE_ATTR = 'data-pdf-page';
 const PDF_SCALE_ATTR = 'data-pdf-scale';
 
-export async function createPdf(canvas: HTMLCanvasElement) {
+export async function createPdf(canvas: HTMLCanvasElement, options: RevealPdfOptions = {}) {
   const pageNumber = parseInt(canvas.getAttribute(PDF_PAGE_ATTR) ?? '1');
   if (!pageNumber) {
     console.warn(`attribute ${PDF_PAGE_ATTR} is not an integral number on element with ${PDF_SRC_ATTR}=${canvas.getAttribute(PDF_SRC_ATTR)}`);
     return;
   }
-  const pdfDoc = await getDocument(canvas.getAttribute(PDF_SRC_ATTR)!).promise;
+  const src = canvas.getAttribute(PDF_SRC_ATTR)!;
+  const pdfDoc = await getDocument(src).promise;
   const page = await pdfDoc.getPage(pageNumber);
   const viewport = page.getViewport({ scale: parseFloat(canvas.getAttribute(PDF_SCALE_ATTR) ?? '1.0') });
   const ctx = canvas.getContext("2d");
@@ -32,6 +34,16 @@ export async function createPdf(canvas: HTMLCanvasElement) {
     transform,
     viewport,
   }).promise;
+
+  if (options.addLink) {
+    const a = document.createElement('a');
+    a.href = src;
+    if(pageNumber != 1) {
+      a.href += `#page=${pageNumber}`;
+    }
+    canvas.replaceWith(a);
+    a.append(canvas);
+  }
 }
 
 function init(deck: RevealStatic) {
@@ -44,7 +56,7 @@ function init(deck: RevealStatic) {
       return;
     }
     for (const canvas of pdfCanvases) {
-      await createPdf(canvas);
+      await createPdf(canvas, options);
     }
     Reveal.layout();
   });
