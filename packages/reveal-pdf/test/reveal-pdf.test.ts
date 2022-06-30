@@ -1,6 +1,5 @@
 import * as plugin from '../src/reveal-pdf';
 import { getDocument, PDFDocumentLoadingTask, PDFDocumentProxy } from "pdfjs-dist";
-import * as path from 'path';
 
 jest.mock('pdfjs-dist');
 
@@ -13,7 +12,7 @@ function createElementFromHTML<T extends HTMLElement>(htmlString: string) {
 }
 
 describe('reveal-pdf', function () {
-  const pdf = path.join(__dirname, '..', '..', 'reveal-pdf-demo', 'helloworld.pdf');
+  const pdf = 'something.pdf';
   test.each([
     [`data-pdf-src="${pdf}"`, 1.0],
     [`data-pdf-src="${pdf}" data-pdf-scale="2.0"`, 2.0],
