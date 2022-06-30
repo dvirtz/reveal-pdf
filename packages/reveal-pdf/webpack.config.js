@@ -1,6 +1,10 @@
 const path = require('path');
 
+const isDevelopement = typeof process.env.CI === 'undefined';
+
 module.exports = {
+  mode: isDevelopement ? "development" : "production",
+  devtool: isDevelopement ? 'eval-source-map' : 'source-map',
   entry: {
     'reveal-pdf': './src/reveal-pdf.ts',    
     'reveal-pdf.worker': 'pdfjs-dist/build/pdf.worker.entry',
