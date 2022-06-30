@@ -1,4 +1,6 @@
-import { getDocument } from "pdfjs-dist";
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+
+setWorkerSource();
 
 const defaultOptions: RevealPdfOptions = {
   addLink: false
@@ -23,7 +25,7 @@ export async function createPdf(canvas: HTMLCanvasElement, options: RevealPdfOpt
   canvas.width = Math.floor(viewport.width * outputScale);
   canvas.height = Math.floor(viewport.height * outputScale);
   canvas.style.width = Math.floor(viewport.width) + "px";
-  canvas.style.height =  Math.floor(viewport.height) + "px";
+  canvas.style.height = Math.floor(viewport.height) + "px";
 
   var transform = outputScale !== 1
     ? [outputScale, 0, 0, outputScale, 0, 0]
@@ -43,6 +45,13 @@ export async function createPdf(canvas: HTMLCanvasElement, options: RevealPdfOpt
     }
     canvas.replaceWith(a);
     a.append(canvas);
+  }
+}
+
+function setWorkerSource() {
+  if (document.currentScript instanceof HTMLScriptElement) {
+    const src = document.currentScript.src.replace(/(\.(?:min\.)?js)(\?.*)?$/i, ".worker$1$2");
+    GlobalWorkerOptions.workerSrc = src;
   }
 }
 
