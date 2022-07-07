@@ -71,7 +71,7 @@ function init(deck: RevealStatic) {
     for (const canvas of pdfCanvases) {
       await createPdf(canvas, options);
     }
-    Reveal.layout();
+    deck.layout();
   });
 }
 
