@@ -3,4 +3,3 @@ node_modules/
 dist/
 .secrets
 coverage/
-packages/reveal-pdf-demo/_static/
