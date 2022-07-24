@@ -1,6 +1,6 @@
 {
   "name": "reveal-pdf-demo",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "demo": "reveal-md reveal-pdf.md -w",
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "reveal-md": "^5.3.3",
-    "reveal-pdf": "^1.0.2",
+    "reveal-pdf": "^1.0.0",
     "web-streams-polyfill": "^3.2.1"
   }
 }
