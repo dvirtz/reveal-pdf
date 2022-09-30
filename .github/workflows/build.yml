@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [16.x, 18.x]
+        node_version: [16, 18]
 
     steps:
       - name: Checkout
@@ -20,26 +20,14 @@ jobs:
           fetch-depth: 0 # for commit linting and semantic-release
           persist-credentials: false
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: "${{ matrix.node_version }}"
           registry-url: "https://registry.npmjs.org"
-
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache npm
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: "npm"
 
       - name: Install canvas tools to build from source # TODO: remove this once canvas releases a prebuild
-        if: ${{ matrix.node_version == '18.x' }}
+        if: ${{ matrix.node_version == '18' }}
         run: |
           sudo apt update
           sudo apt install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev      
