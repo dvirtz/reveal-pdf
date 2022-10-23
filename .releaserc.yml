@@ -31,6 +31,8 @@ _rules: &rules
     release: patch
   - type: test
     release: patch
+  - type: build
+    release: patch
 
 branches:
   - main
