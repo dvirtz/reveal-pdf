@@ -1,3 +1,10 @@
+## 1.0.2 (2022-10-24)
+
+
+### Bug Fixes
+
+* **reveal-pdf-demo:** make sure worker is available ([#7](undefined/dvirtz/reveal-pdf/issues/7)) 0307bfe
+
 ## 1.0.1 (2022-10-24)
 
 
