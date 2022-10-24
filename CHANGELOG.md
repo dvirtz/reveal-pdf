@@ -1,3 +1,14 @@
+## 1.0.1 (2022-10-24)
+
+
+### Build and continuous integration
+
+* create release after build changes 1d2ae1a
+* remove redundant registry url 1281cb2
+* **reveal-pdf:** audit fix 8b025f9
+* **reveal-pdf:** fix library name contention efdf8ff
+* upgrade setup-node action 9dce0ac
+
 ## 1.0.0 (2022-07-24)
 
 
