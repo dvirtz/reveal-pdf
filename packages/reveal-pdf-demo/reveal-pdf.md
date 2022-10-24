@@ -16,13 +16,13 @@ Dvir Yitzchaki
 
 ---
 
-<canvas data-pdf-src="helloworld.pdf" data-pdf-scale="2.0"></canvas>
+<canvas data-pdf-src="pdfs/helloworld.pdf" data-pdf-scale="2.0"></canvas>
 
 ```html
-<canvas data-pdf-src="helloworld.pdf" data-pdf-scale="2.0"></canvas>
+<canvas data-pdf-src="pdfs/helloworld.pdf" data-pdf-scale="2.0"></canvas>
 ```
 
-<!-- .element: style="font-size: 0.5em;" -->
+<!-- .element: style="font-size: 0.45em;" -->
 
 ---
 
