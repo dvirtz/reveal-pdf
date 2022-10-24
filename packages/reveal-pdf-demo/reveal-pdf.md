@@ -1,6 +1,7 @@
 ---
 scripts:
   - node_modules/reveal-pdf/dist/reveal-pdf.js
+  - node_modules/reveal-pdf/dist/reveal-pdf.worker.js
   - scripts/load-plugins.js
 highlightTheme: atom-one-dark
 ---
